@@ -31,7 +31,7 @@ Example output (predicted labels):
 
 - **data preparation:** *to be added later (code needs some cleaning)*
 
-  in the meantime, follow the example above
+  in the meantime, follow the example above (JSON format)
 - **training:** `wav2vec2_audioFrameClassification/wav2vec2_audioFrameClassification.py`
 
   see `wav2vec2_audioFrameClassification/run.sh` for an example of how to use
@@ -42,7 +42,7 @@ Example output (predicted labels):
 If you use this code, please cite our [TSD 2022 paper](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31):
 
 
-Kunešová, M., Řezáčková, M. (2022). Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0. In: International Conference on Text, Speech, and Dialogue (TSD 2022). LNCS vol. 13502, pp. 377-388. Springer. doi: 10.1007/978-3-031-16270-1_31
+Kunešová, M., Řezáčková, M. (2022). Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0. In: International Conference on Text, Speech, and Dialogue (TSD 2022). LNAI vol. 13502, pp. 377-388. Springer. doi: 10.1007/978-3-031-16270-1_31
 
 ```
 @inproceedings{Kunesova2022,
