@@ -42,14 +42,16 @@ Example output (predicted labels):
 If you use this code, please cite our [TSD 2022 paper](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31):
 
 
-Kunešová, M., Řezáčková, M. (2022). Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0. In: Proc. Text, Speech, and Dialogue (TSD 2022). pp. 377-388, doi: 10.1007/978-3-031-16270-1_31
+Kunešová, M., Řezáčková, M. (2022). Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0. In: International Conference on Text, Speech, and Dialogue (TSD 2022). LNCS vol. 13502, pp. 377-388. Springer. doi: 10.1007/978-3-031-16270-1_31
 
 ```
 @inproceedings{Kunesova2022,
 author={Kune{\v{s}}ov{\'a}, Marie and {\v{R}}ez{\'a}{\v{c}}kov{\'a}, Mark{\'e}ta},
 title={Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0},
-booktitle={Proc. Text, Speech, and Dialogue (TSD 2022)},
+booktitle={International Conference on Text, Speech, and Dialogue (TSD 2022)},
 year={2022},
 pages={377--388},
+doi={10.1007/978-3-031-16270-1_31},
+publisher={Springer}
 }
 ```
