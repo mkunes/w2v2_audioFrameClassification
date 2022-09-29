@@ -4,6 +4,9 @@
 #       (20s of audio -> 1000 ref. labels, but only 999 audio frames; currently I'm removing the last label during dataset preprocessing)
 #   TODO: check if everything still works when batch_size > 1 or num_labels > 1
 #   TODO: remove unnecessary imports
+#   TODO: check if all "optional" arguments are truly optional and won't cause a crash when missing
+#   TODO: automatically detect and warn if training loss is not decreasing in the first few epochs? 
+#           (the model sometimes gets stuck at the start due to poor initialization...)
 #
 # mkunes, 2022
 #
@@ -15,6 +18,7 @@
 #         (20s of audio -> 1000 ref. labels, but only 999 predictions; currently I'm removing the last ref. label during dataset preprocessing)
 #           a) by default (or with "--remove_last_label 1"), the last label for each wav file is removed, as before
 #           b) "--remove_last_label 0" will keep all labels as they are
+#       - fix crash when '--model_save_dir' is not set
 #   2022-09-14
 #       - incorporated edits by zzajic:
 #           save loss via Tensorboard or Weights & Biases (optional, enabled via "--tensorboard_logging" and "--wandb_logging")
@@ -465,8 +469,13 @@ def main():
                 os.makedirs(model_save_dir, exist_ok=True)
 
             logfile = open(os.path.join(model_save_dir,"log.csv"), "w")
-            logfile.write("epoch,train loss,val loss\n")
+        else:
+            out_dir = os.path.dirname(file_output)
+            if out_dir != "":
+                os.makedirs(out_dir, exist_ok=True)
+            logfile = open(file_output + ".log.csv", "w")
 
+        logfile.write("epoch,train loss,val loss\n")
         
         for epoch in range(num_epochs):
 
