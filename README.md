@@ -16,7 +16,7 @@ Code used for the paper ["Detection of Prosodic Boundaries in Speech Using Wav2V
   
   wav files should be split into intervals of max. 30s (depends on the size of the model and the amount of available memory) and the sample rate must be 16kHz
   
-- **training:** `wav2vec2_audioFrameClassification/wav2vec2_audioFrameClassification.py`
+- **training and prediction:** `wav2vec2_audioFrameClassification/wav2vec2_audioFrameClassification.py`
 
   see `wav2vec2_audioFrameClassification/run.sh` for an example of how to use
 - **evaluation:** *to be added later (code needs some cleaning)*
