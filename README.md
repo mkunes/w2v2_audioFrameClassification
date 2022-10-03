@@ -1,6 +1,6 @@
 # wav2vec2 audio frame classification
 
-Code used for the paper ["Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0" (TSD 2022)](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31)
+Code used for the paper ["Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0"](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31), presented at TSD 2022; arXiv preprint: [link](https://arxiv.org/abs/2209.15032)
 
 (This repository is a work in progress)
 
