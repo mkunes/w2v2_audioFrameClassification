@@ -336,7 +336,7 @@ def main():
     freeze_feature_encoder = True
     freeze_base_model = False
 
-    metric = load_metric("mse") # TODO: replace with something more suitable
+    metric = load_metric("mse")
 
     dataset = load_json_dataset_forAudioFrameClassification(file_train,file_eval,file_valid)
 
