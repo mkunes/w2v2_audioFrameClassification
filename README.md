@@ -1,6 +1,8 @@
 # wav2vec2 audio frame classification
 
-Code used for the paper ["Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0"](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31), presented at TSD 2022; arXiv preprint: [link](https://arxiv.org/abs/2209.15032)
+Code used for the papers:
+- ["Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0"](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31), presented at TSD 2022; arXiv preprint: [link](https://arxiv.org/abs/2209.15032)
+- "Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0" (in preparation, preprint to be added soon)
 
 (This repository is a work in progress)
 
@@ -53,6 +55,18 @@ Example output (predicted labels):
 ```
 ![GitHub_CMA01_output](https://user-images.githubusercontent.com/48019906/193062791-1f80df74-ad3a-4508-aec4-bc5280955481.png)
 
+## Multi-task detection of speaker changes, overlapping speech and voice activity
+
+### Code:
+
+- **data preparation:** *to be added later*
+
+- **training and prediction:** `wav2vec2_audioFrameClassification/wav2vec2_audioFrameClassification_multitask.py`
+
+  see `wav2vec2_audioFrameClassification/run_multitask.sh` for an example of how to use
+- **evaluation:** 
+  - SCD: `evaluation/SCD_evaluation_pyannote.ipynb`
+  - OSD and VAD: `evaluation/OSD-VAD_evaluation_pyannote.ipynb`
 
 ## References
 
@@ -72,3 +86,5 @@ doi={10.1007/978-3-031-16270-1_31},
 publisher={Springer}
 }
 ```
+
+or our multitask classification paper (in preparation, preprint to be added soon)
