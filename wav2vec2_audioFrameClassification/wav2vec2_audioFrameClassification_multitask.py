@@ -19,6 +19,8 @@
 #
 #
 # Changelog:
+#   2022-10-25
+#       - fixed crash when using default loss weights during an evaluation-only run (wrong variable name)
 #   2022-10-24
 #       - initial GitHub commit at https://github.com/mkunes/w2v2_audioFrameClassification/
 #   
@@ -121,6 +123,7 @@ class Wav2Vec2ForAudioFrameClassification_multitask(transformers.Wav2Vec2ForAudi
             config.task_specific_params["num_tasks"] = num_tasks
         elif "num_tasks" in config.task_specific_params:
             self.num_tasks = config.task_specific_params["num_tasks"]
+            num_tasks = self.num_tasks # just in case
         else:
             raise ValueError(
                 "The number of tasks could not be determined"
@@ -133,7 +136,7 @@ class Wav2Vec2ForAudioFrameClassification_multitask(transformers.Wav2Vec2ForAudi
         elif "loss_weights" in config.task_specific_params:
             self.loss_weights = config.task_specific_params["loss_weights"]
         else:
-            self.loss_weights = [1] * num_tasks
+            self.loss_weights = [1] * self.num_tasks
             print("Loss weights not specified; defaulting to equal weights for all tasks.")
 
         if use_sigmoid_classification is not None:
