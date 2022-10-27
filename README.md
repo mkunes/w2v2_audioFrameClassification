@@ -59,11 +59,30 @@ Example output (predicted labels):
 
 ### Code:
 
-- **data preparation:** *to be added later*
+- **data preparation:** 
+
+  This part is currently written in MATLAB. (Sorry.)
+  
+  (Note: GNU Octave might work too, but we haven't checked.)
+
+
+  - create audio files and reference labels for single-task SCD, OSD or VAD:
+
+    `prepare_training_data/prepare_data_for_wav2vec.m`
+
+  - combine single-task references into one file for multitask training:
+
+    `prepare_training_data/w2w2_combine_refs_for_multitask.m`
+
 
 - **training and prediction:** `wav2vec2_audioFrameClassification/wav2vec2_audioFrameClassification_multitask.py`
 
   see `wav2vec2_audioFrameClassification/run_multitask.sh` for an example of how to use
+  
+  plot multitask predictions vs references (in MATLAB):
+
+    `evaluation/w2v2_plot_outputs_vs_refs_multitask.m`
+  
 - **evaluation:** 
   - SCD: `evaluation/SCD_evaluation_pyannote.ipynb`
   - OSD and VAD: `evaluation/OSD-VAD_evaluation_pyannote.ipynb`
