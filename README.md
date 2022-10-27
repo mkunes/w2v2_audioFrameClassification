@@ -2,7 +2,7 @@
 
 Code used for the papers:
 - ["Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0"](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31), presented at TSD 2022; arXiv preprint: [link](https://arxiv.org/abs/2209.15032)
-- "Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0" (in preparation, preprint to be added soon)
+- ["Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0"](https://arxiv.org/abs/2210.14755) (preprint, under review)
 
 (This repository is a work in progress)
 
@@ -70,21 +70,35 @@ Example output (predicted labels):
 
 ## References
 
-If you use this code, please cite our [TSD 2022 paper](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31):
+If you use this code, please cite one of the following papers:
+
+- phrase boundary detection [(TSD 2022)](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31):
 
 
-Kunešová, M., Řezáčková, M. (2022). Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0. In: International Conference on Text, Speech, and Dialogue (TSD 2022). LNAI vol. 13502, pp. 377-388. Springer. doi: 10.1007/978-3-031-16270-1_31
+  Kunešová, M., Řezáčková, M. (2022). Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0. In: International Conference on Text, Speech, and Dialogue (TSD 2022). LNAI vol. 13502, pp. 377-388. Springer. doi: 10.1007/978-3-031-16270-1_31
 
-```
-@inproceedings{Kunesova2022,
-author={Kune{\v{s}}ov{\'a}, Marie and {\v{R}}ez{\'a}{\v{c}}kov{\'a}, Mark{\'e}ta},
-title={Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0},
-booktitle={International Conference on Text, Speech, and Dialogue (TSD 2022)},
-year={2022},
-pages={377--388},
-doi={10.1007/978-3-031-16270-1_31},
-publisher={Springer}
-}
-```
+  ```
+  @inproceedings{Kunesova2022,
+  author={Kune{\v{s}}ov{\'a}, Marie and {\v{R}}ez{\'a}{\v{c}}kov{\'a}, Mark{\'e}ta},
+  title={Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0},
+  booktitle={International Conference on Text, Speech, and Dialogue (TSD 2022)},
+  year={2022},
+  pages={377--388},
+  doi={10.1007/978-3-031-16270-1_31},
+  publisher={Springer}
+  }
+  ```
 
-or our multitask classification paper (in preparation, preprint to be added soon)
+- multitask SCD, OSD and VAD [(preprint)](https://arxiv.org/abs/2210.14755):
+
+  Kunešová, M., Zajíc, Z. (2022). Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0. arXiv preprint, arXiv:2210.14755. 
+
+  ```
+  @article{https://doi.org/10.48550/arxiv.2210.14755,
+    doi = {10.48550/ARXIV.2210.14755},
+    author = {Kune{\v{s}}ov{\'a}, Marie and Zaj{\'{i}c}, Zbyn{\v{e}}k},
+    title = {Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0},
+    journal = {arXiv preprint. arXiv:2210.14755},
+    year = {2022}
+  }
+  ```
