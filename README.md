@@ -61,10 +61,9 @@ Example output (predicted labels):
 
 - **data preparation:** 
 
-  This part is currently written in MATLAB. (Sorry.)
+  This part is currently written in MATLAB. (Sorry.) 
   
-  (Note: GNU Octave might work too, but we haven't checked.)
-
+  (Note: [GNU Octave](https://octave.org/index) might work too, but we haven't checked.)
 
   - create audio files and reference labels for single-task SCD, OSD or VAD:
 
@@ -87,6 +86,20 @@ Example output (predicted labels):
   - SCD: `evaluation/SCD_evaluation_pyannote.ipynb`
   - OSD and VAD: `evaluation/OSD-VAD_evaluation_pyannote.ipynb`
 
+### Requirements:
+
+- `wav2vec2_audioFrameClassification_multitask.py` requires
+
+  - Python 3.6+
+  - torch
+  - datasets
+  - transformers
+
+  Oldest versions that have been confirmed to work: torch 1.10.0, datasets 1.14.0, transformers 4.18.0
+  
+- Evaluation (via Jupyter notebooks) requires Python 3, [`pyannote.metrics`](https://github.com/pyannote/pyannote-metrics) and optionally also [`pyannote.db.odessa.ami`](https://github.com/pyannote/pyannote-db-odessa-ami) (only for evaluation on the AMI corpus).
+
+
 ## References
 
 If you use this code, please cite one of the following papers:
@@ -97,7 +110,7 @@ If you use this code, please cite one of the following papers:
   Kunešová, M., Řezáčková, M. (2022). Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0. In: International Conference on Text, Speech, and Dialogue (TSD 2022). LNAI vol. 13502, pp. 377-388. Springer. doi: 10.1007/978-3-031-16270-1_31
 
   ```
-  @inproceedings{Kunesova2022,
+  @inproceedings{KunesovaRezackova2022,
   author={Kune{\v{s}}ov{\'a}, Marie and {\v{R}}ez{\'a}{\v{c}}kov{\'a}, Mark{\'e}ta},
   title={Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0},
   booktitle={International Conference on Text, Speech, and Dialogue (TSD 2022)},
@@ -113,7 +126,7 @@ If you use this code, please cite one of the following papers:
   Kunešová, M., Zajíc, Z. (2022). Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0. arXiv preprint, arXiv:2210.14755. 
 
   ```
-  @article{https://doi.org/10.48550/arxiv.2210.14755,
+  @article{KunesovaZajic2022,
     doi = {10.48550/ARXIV.2210.14755},
     author = {Kune{\v{s}}ov{\'a}, Marie and Zaj{\'{i}c}, Zbyn{\v{e}}k},
     title = {Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0},
