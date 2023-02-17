@@ -2,7 +2,7 @@
 
 Code used for the papers:
 - ["Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0"](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31), presented at TSD 2022; arXiv preprint: [link](https://arxiv.org/abs/2209.15032)
-- ["Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0"](https://arxiv.org/abs/2210.14755) (preprint, under review)
+- ["Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0"](https://arxiv.org/abs/2210.14755) (preprint, to appear at ICASSP 2023)
 
 (This repository is a work in progress)
 
