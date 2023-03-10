@@ -121,16 +121,16 @@ If you use this code, please cite one of the following papers:
   }
   ```
 
-- multitask SCD, OSD and VAD [(preprint)](https://arxiv.org/abs/2210.14755):
+- multitask SCD, OSD and VAD (To appear at ICASSP 2023) [(preprint)](https://arxiv.org/abs/2210.14755):
 
-  Kunešová, M., Zajíc, Z. (2022). Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0. arXiv preprint, arXiv:2210.14755. 
+  Kunešová, M., Zajíc, Z. (2022). Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0. In: 2023 IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP 2023). In press. arXiv:2210.14755.
 
   ```
   @inproceedings{KunesovaZajic2022,
     doi = {10.48550/ARXIV.2210.14755},
     author = {Kune{\v{s}}ov{\'a}, Marie and Zaj{\'{i}c}, Zbyn{\v{e}}k},
     title = {Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0},
-    booktitle = {To appear at ICASSP 2023},
+    booktitle = {2023 IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP 2023)},
     note = {In press. arXiv:2210.14755},
     year = {2022}
   }
