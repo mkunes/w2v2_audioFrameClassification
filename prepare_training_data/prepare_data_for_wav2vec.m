@@ -22,14 +22,13 @@ function prepare_data_for_wav2vec(wavListFile, dir_audio_out, dir_ref_in, dir_re
 %   or with additional Name-Value Pair Arguments:
 %       prepare_data_for_wav2vec(wavListFile, dir_audio_out, dir_ref_in, dir_ref_out, Name1, Value1, Name2, Value2, ...)
 %
-% wavListFile - path to a text file listing the wave files to process, one per line
+% wavListFile - path to a text file listing the wave files to process, one per line (with full paths)
 %               lines can be commented-out using '#' or '%' at the start of the line
-% dir_audio_out - target destination for the converted/segmented wav files
-% dir_ref_in - directory with the ref. files corresponding to the wavs
+% dir_audio_out - target destination for the converted/segmented wav files (path to a directory; it doesn't need to exist)
+% dir_ref_in - path to a directory with the reference files corresponding to the wavs (one ref. file per wav)
 %           either as a) .mat files with VAD/CF for both speakers,
 %                  or b) classic RTTM files like for speaker diarization
-%           if empty (dir_ref_in = []), script will instead look into the same folder as each wav file
-% dir_ref_out - target destination for the reference labels
+% dir_ref_out - target destination for the reference labels (path to a directory; it doesn't need to exist)
 %
 % task - 'OSD' / 'VAD' / 'SCD'
 %
