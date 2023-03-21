@@ -26,6 +26,13 @@ function SCD_generate_refs_for_wav2vec(splitWavsList, dir_ref_in, dir_ref_out, v
 % ----
 %
 % Changelog:
+%   2023-03-21
+%       - replaced internal.stats.parseArgs with inputParser for compatibility with GNU Octave
+%       (v6.4.0 is confirmed to work now; no other versions were tested)
+%       - resolved a slight rounding inconsistency caused by Matlab's imperfect floating point arithmetic
+%           (in the part where "the exact frame gets a 1, even with fuzzy labelling")
+%   2023-02-20
+%       - round labels to 4 decimal places (to avoid "2.22045e-16" etc)  
 %   2022-10-27
 %     - initial GitHub commit at https://github.com/mkunes/w2v2_audioFrameClassification/
 %
@@ -57,9 +64,31 @@ options = {
 pnames = options(:,1);
 dflts = options(:,2);
 
-[dataset,labelsRate,label_type,label_collar,minPauseLen_sameSpk,ref_format,refFileSuffix,task] =  ...
-        internal.stats.parseArgs(pnames, dflts, varargin{1:end});
+% Octave-compatible input parsing
+p = inputParser;
+for iArg = 1:numel(pnames)
+    addParameter(p,pnames{iArg},dflts{iArg})
+end
+parse(p,varargin{:})
+
+dataset = p.Results.dataset;
+labelsRate = p.Results.labelsRate;
+label_type = p.Results.label_type;
+label_collar = p.Results.label_collar;
+minPauseLen_sameSpk = p.Results.minPauseLen_sameSpk;
+ref_format = p.Results.ref_format;
+refFileSuffix = p.Results.refFileSuffix;
+task = p.Results.task;
+
+% % original parsing - not supported in Octave
+%[dataset,labelsRate,label_type,label_collar,minPauseLen_sameSpk,ref_format,refFileSuffix,task] =  ...
+%        internal.stats.parseArgs(pnames, dflts, varargin{1:end});
     
+if exist('OCTAVE_VERSION', 'builtin') ~= 0 % Octave
+    isOctave = true;
+else
+    isOctave = false;
+end
 
 %% hardcoded settings
 
@@ -234,6 +263,21 @@ for iFile = 1:nFiles
                         for idx = labelStartIdx:labelEndIdx
                             time = idx / labelsRate;
                             label = 1 - abs(labelMidTime - time) / label_collar;
+                            
+                            % round to 4 decimals (mostly to avoid values like "5.68434e-14")
+                            if isOctave % Octave 6.4.0 does not support rounding to N decimals using round(X,N)
+                                k = 10000;
+                                label = round(label * k) / k;
+                                
+                                % this seemingly pointless bit of code gets rid of "negative zeros"
+                                %  - Octave 6.4.0 prints them as "-0" when using %g
+                                if label == 0 
+                                    label = 0;
+                                end
+                            else
+                                label = round(label,4); 
+                            end
+                            
                             labels_all(idx) = max(labels_all(idx), label); 
                                 % max is in case there are two refs close to each other
                         end
@@ -245,7 +289,11 @@ for iFile = 1:nFiles
             end
 
             % the exact frame gets a "1", even with fuzzy labelling
-            labels_all(round(labelMidTime * labelsRate)) = 1;
+            % edit 2023-03-21: added epsilon for rounding consistency:
+            %    if the real speaker change is exactly between two wav2vec frames, now it should always get rounded to the second one
+            %    previously, it could go either way (Matlab's imperfect floating point arithmetic again...)
+            labels_all(round(labelMidTime * labelsRate + epsilon)) = 1; 
+                
         end
 
     end

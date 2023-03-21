@@ -28,6 +28,11 @@ function OSD_VAD_generate_refs_for_wav2vec(splitWavsList, dir_ref_in, dir_ref_ou
 % ----
 %
 % Changelog:
+%   2023-03-21
+%     - replaced internal.stats.parseArgs with inputParser for compatibility with GNU Octave
+%       (v6.4.0 is confirmed to work now; no other versions were tested)
+%     - if there's only going to be a tiny little triangle in the labels (because the overlap/speech is extremely short), 
+%       do not set its middle value to 1
 %   2022-10-27
 %     - initial GitHub commit at https://github.com/mkunes/w2v2_audioFrameClassification/
 % ----
@@ -64,8 +69,34 @@ options = {
 pnames = options(:,1);
 dflts = options(:,2);
 
-[dataset,labelsRate,label_type,label_collar,minPauseLen_sameSpk,minNonOLLen,minOLLen,ref_format,refFileSuffix,task] =  ...
-        internal.stats.parseArgs(pnames, dflts, varargin{1:end});
+% Octave-compatible input parsing
+p = inputParser;
+for iArg = 1:numel(pnames)
+    addParameter(p,pnames{iArg},dflts{iArg})
+end
+parse(p,varargin{:})
+
+dataset = p.Results.dataset;
+labelsRate = p.Results.labelsRate;
+label_type = p.Results.label_type;
+label_collar = p.Results.label_collar;
+minPauseLen_sameSpk = p.Results.minPauseLen_sameSpk;
+minNonOLLen = p.Results.minNonOLLen;
+minOLLen = p.Results.minOLLen;
+ref_format = p.Results.ref_format;
+refFileSuffix = p.Results.refFileSuffix;
+task = p.Results.task;
+
+
+% % original parsing - not supported in Octave
+% [dataset,labelsRate,label_type,label_collar,minPauseLen_sameSpk,minNonOLLen,minOLLen,ref_format,refFileSuffix,task] =  ...
+%         internal.stats.parseArgs(pnames, dflts, varargin{1:end});
+
+if exist('OCTAVE_VERSION', 'builtin') ~= 0 % Octave
+    isOctave = true;
+else
+    isOctave = false;
+end
     
 vps = 100; % sample rate of VAD/OSD in .mat reference files (not used with RTTM refs)
 minNonOLLen_v = minNonOLLen * vps;
@@ -260,21 +291,23 @@ for iFile = 1:nFiles
                 maxLabelEndTime = overlapEndTime;
             end
 
-            maxLabelStartIdx = round(maxLabelStartTime * labelsRate) + 1;
-            maxLabelEndIdx = round(maxLabelEndTime * labelsRate);
+            % 2023-03-21 - also added epsilon here, mostly for consistency between Matlab and Octave 
+            %  - there seem to be slight differences in floating point arithmetics between them
+            maxLabelStartIdx = round(maxLabelStartTime * labelsRate + epsilon) + 1;
+            maxLabelEndIdx = round(maxLabelEndTime * labelsRate + epsilon);
 
             if maxLabelStartIdx > maxLabelEndIdx % the overlap is so short that the linear slopes can't reach the max value
                 % => instead there will be just a smaller triangle with the peak in the middle
 
                 % TODO: figure out if I shouldn't just ignore the overlap in this case
-                maxLabelStartIdx = round(labelsRate * (overlapStartTime + overlapEndTime) / 2);
+                maxLabelStartIdx = round(labelsRate * (overlapStartTime + overlapEndTime) / 2 + epsilon);
                 maxLabelEndIdx = maxLabelStartIdx;
             end
 
             if strcmp(label_type, 'fuzzy') && label_collar > 0
 
-                labelStartIdx = max(1,round((overlapStartTime - label_collar) * labelsRate));
-                labelEndIdx = min(round((overlapEndTime + label_collar) * labelsRate),nFrames);
+                labelStartIdx = max(1,round((overlapStartTime - label_collar) * labelsRate + epsilon));
+                labelEndIdx = min(round((overlapEndTime + label_collar) * labelsRate + epsilon),nFrames);
 
                 % linear slope at the start of the overlap
                 for idx = labelStartIdx:(maxLabelStartIdx-1)
@@ -283,7 +316,21 @@ for iFile = 1:nFiles
                     end
                     time = idx / labelsRate;
                     label = 1 - abs(maxLabelStartTime - time) / label_collar;
-                    label = round(label,4); % the rounding is mostly to avoid values like "5.68434e-14"
+                    
+                    % round to 4 decimals (mostly to avoid values like "5.68434e-14")
+                    if isOctave % Octave 6.4.0 does not support rounding to N decimals using round(X,N)
+                        k = 10000;
+                        label = round(label * k) / k;
+
+                        % this seemingly pointless bit of code gets rid of signed zeros (e.g. from round(-0.1))
+                        %  - otherwise Octave 6.4.0 prints "-0" when using %g
+                        if label == 0 
+                            label = 0;
+                        end
+                    else
+                        label = round(label,4); 
+                    end
+                    
                     labels_all(idx) = max(labels_all(idx), label); 
                         % max is in case there are two overlaps close to each other
                 end
@@ -295,16 +342,31 @@ for iFile = 1:nFiles
                     end
                     time = idx / labelsRate;
                     label = 1 - abs(maxLabelEndTime - time) / label_collar;
-                    label = round(label,4); % the rounding is mostly to avoid values like "5.68434e-14"
+                    
+                    % round to 4 decimals (mostly to avoid values like "5.68434e-14")
+                    if isOctave % Octave 6.4.0 does not support rounding to N decimals using round(X,N)
+                        k = 10000;
+                        label = round(label * k) / k;
+
+                        % this seemingly pointless bit of code gets rid of signed zeros (e.g. from round(-0.1))
+                        %  - otherwise Octave 6.4.0 prints "-0" when using %g
+                        if label == 0 
+                            label = 0;
+                        end
+                    else
+                        label = round(label,4); 
+                    end
+                    
                     labels_all(idx) = max(labels_all(idx), label); 
                         % max is in case there are two overlaps close to each other
                 end
             end
 
             % interval between the linear slopes gets label 1
+            %   Edit 2023-03-21: but not if there's only a tiny little triangle because the overlap is very short
             if isinf(maxLabelEndIdx)
                 labels_all(maxLabelStartIdx:end) = 1;
-            else
+            elseif maxLabelEndIdx > maxLabelStartIdx
                 labels_all(maxLabelStartIdx:maxLabelEndIdx) = 1;
             end
 

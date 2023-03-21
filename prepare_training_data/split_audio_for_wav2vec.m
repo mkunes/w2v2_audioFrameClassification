@@ -22,6 +22,9 @@ function wav_list_out = split_audio_for_wav2vec(wavListFile, dir_audio_out, vara
 % ----
 %
 % Changelog:
+%   2023-03-21
+%     - replaced internal.stats.parseArgs with inputParser for compatibility with GNU Octave
+%       (v6.4.0 is confirmed to work now; no other versions were tested)
 %   2022-10-27
 %     - initial GitHub commit at https://github.com/mkunes/w2v2_audioFrameClassification/
 %
@@ -46,8 +49,22 @@ options = {
 pnames = options(:,1);
 dflts = options(:,2);
 
-[maxTime,minTime,shift,newSampleRate,maxTotalTimePerOrigAudio] =  ...
-        internal.stats.parseArgs(pnames, dflts, varargin{1:end});
+% Octave-compatible input parsing
+p = inputParser;
+for iArg = 1:numel(pnames)
+    addParameter(p,pnames{iArg},dflts{iArg})
+end
+parse(p,varargin{:})
+
+maxTime = p.Results.maxTime;
+minTime = p.Results.minTime;
+shift = p.Results.shift;
+newSampleRate = p.Results.newSampleRate;
+maxTotalTimePerOrigAudio = p.Results.maxTotalTimePerOrigAudio;
+
+% % original parsing - not supported in Octave
+% [maxTime,minTime,shift,newSampleRate,maxTotalTimePerOrigAudio] =  ...
+%         internal.stats.parseArgs(pnames, dflts, varargin{1:end});
 
 dir_out_main = dir_audio_out;
 

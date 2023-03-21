@@ -63,7 +63,7 @@ Example output (predicted labels):
 
   This part is currently written in MATLAB. (Sorry.) 
   
-  (Note: [GNU Octave](https://octave.org/index) might work too, but we haven't checked.)
+  [GNU Octave](https://octave.org/index) should also work, but we haven't tested it too extensively. (We used Octave 6.4.0 on Ubuntu.)
 
   - create audio files and reference labels for single-task SCD, OSD or VAD:
 

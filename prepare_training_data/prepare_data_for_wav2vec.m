@@ -36,6 +36,9 @@ function prepare_data_for_wav2vec(wavListFile, dir_audio_out, dir_ref_in, dir_re
 % ----
 %
 % Changelog:
+%   2023-03-21
+%     - replaced internal.stats.parseArgs with inputParser for compatibility with GNU Octave
+%       (v6.4.0 is confirmed to work now; no other versions were tested)
 %   2022-10-27
 %     - combined OSD, VAD and SCD into the same main function
 %     - initial GitHub commit at https://github.com/mkunes/w2v2_audioFrameClassification/
@@ -99,10 +102,34 @@ options = {
 pnames = options(:,1);
 dflts = options(:,2);
 
-[maxTime,minTime,shift,dataset,newSampleRate,labelsRate,label_type,label_collar,...
-    minPauseLen_sameSpk,minNegLen,minPosLen,ref_format,refFileSuffix,...
-    maxTotalTimePerOrigAudio,splitWavsList] =  ...
-        internal.stats.parseArgs(pnames, dflts, varargin{1:end});
+% Octave-compatible input parsing
+p = inputParser;
+for iArg = 1:numel(pnames)
+    addParameter(p,pnames{iArg},dflts{iArg})
+end
+parse(p,varargin{:})
+
+maxTime = p.Results.maxTime;
+minTime = p.Results.minTime;
+shift = p.Results.shift;
+dataset = p.Results.dataset;
+newSampleRate = p.Results.newSampleRate;
+labelsRate = p.Results.labelsRate;
+label_type = p.Results.label_type;
+label_collar = p.Results.label_collar;
+minPauseLen_sameSpk = p.Results.minPauseLen_sameSpk;
+minNegLen = p.Results.minNegLen;
+minPosLen = p.Results.minPosLen;
+ref_format = p.Results.ref_format;
+refFileSuffix = p.Results.refFileSuffix;
+maxTotalTimePerOrigAudio = p.Results.maxTotalTimePerOrigAudio;
+splitWavsList = p.Results.splitWavsListFile;
+
+% % original parsing - not supported in Octave
+% [maxTime,minTime,shift,dataset,newSampleRate,labelsRate,label_type,label_collar,...
+%     minPauseLen_sameSpk,minNegLen,minPosLen,ref_format,refFileSuffix,...
+%     maxTotalTimePerOrigAudio,splitWavsList] =  ...
+%         internal.stats.parseArgs(pnames, dflts, varargin{1:end});
     
 %%    
 

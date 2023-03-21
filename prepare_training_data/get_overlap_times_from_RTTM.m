@@ -3,12 +3,30 @@ function overlaps_times = get_overlap_times_from_RTTM(rttm_filename,minNonOLLen,
 %
 % ---
 %
+% Changelog:
+%   2023-03-21
+%     - now compatible with Octave v6.4.0 (not tested in any other versions)
+%     - added epsilon 1e-10 to some floating point comparisons to ensure Matlab and Octave give the exact same results
+%       (They seem to handle floating point arithmetic slightly differently)
+%
 % Marie Kunesova (https://github.com/mkunes)
 % 2022
 
 if nargin < 4
     minPauseLen_sameSpk = 0;
 end
+
+
+% workaround for imperfect floating point arithmetic
+epsilon = 1e-10; 
+if minPauseLen_sameSpk > epsilon
+    minPauseLen_sameSpk = minPauseLen_sameSpk - epsilon;
+end
+if minOLLen > epsilon
+    minOLLen = minOLLen - epsilon;
+end
+minNonOLLen = minNonOLLen + epsilon;
+
 
 % read the entire RTTM
 fileID = fopen(rttm_filename, 'r');
@@ -18,6 +36,12 @@ labels = textscan(fileID,'%s %s %d %f %f %s %s %s %[^\n\r]');
     % e.g.:
     %   SPEAKER	2412-153948-0008_777-126732-0053	1	0.33	4.01	<NA>	<NA>	777	<NA>
 fclose(fileID);
+
+if isempty(labels{1}{end}) % happens in Octave 6.4.0, but not in Matlab
+    for ii = 1:numel(labels)
+        labels{ii} = labels{ii}(1:end-1);
+    end
+end
 
 nLabels = numel(labels{1});
 speakers = unique(labels{8});
@@ -98,7 +122,7 @@ for iChng = 1:size(changes,1)
                 isOverlap = true;
                 
                 if nOverlaps == 0 || t - overlaps_times(nOverlaps,2) >= minNonOLLen
-                    % it the time since last overlap is long enough, add this as a new overlap
+                    % if the time since last overlap is long enough, add this as a new overlap
                     %   (otherwise they get merged)
                     
                     nOverlaps = nOverlaps + 1;

@@ -5,8 +5,6 @@ function basename = audio_normalise_filename(wavname,dataset,suffixesToRemove,re
 %   'something_16kHz.stillPartOfTheName_16kHz.meeting.OHALLWAY'
 %       will be turned into
 %   'something_16kHz.stillPartOfTheName'
-%
-% version 2022-08-05
 % 
 % Usage:
 %   basename = audio_normalise_filename(wavname,dataset,suffixesToRemove,regexToRemove)
@@ -21,6 +19,9 @@ function basename = audio_normalise_filename(wavname,dataset,suffixesToRemove,re
 % -----
 %
 % Changelog:
+%   2023-03-21
+%     - now compatible with Octave v6.4.0 (replaced the endsWith() function)
+%       (no other Octave versions have been tested)
 %   2022-10-27
 %     - initial GitHub commit at https://github.com/mkunes/w2v2_audioFrameClassification/
 %
@@ -124,7 +125,10 @@ found = true;
 while found
     found = false;
     for ii = 1:numel(suffixesToRemove)
-        if endsWith(basename,suffixesToRemove{ii})
+        %if endsWith(basename,suffixesToRemove{ii})  % endsWith() is not supported in Octave v6.4.0 (it was added in v7)
+        
+        suffix_len = numel(suffixesToRemove{ii});
+        if numel(basename) >= suffix_len && strcmp(basename((end-suffix_len+1):end),suffixesToRemove{ii})
             basename = basename(1:(end-numel(suffixesToRemove{ii})));
             found = true;
         end
