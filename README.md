@@ -2,7 +2,7 @@
 
 Code used for the papers:
 - ["Detection of Prosodic Boundaries in Speech Using Wav2Vec 2.0"](https://link.springer.com/chapter/10.1007/978-3-031-16270-1_31), presented at TSD 2022; arXiv preprint: [link](https://arxiv.org/abs/2209.15032)
-- ["Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0"](https://arxiv.org/abs/2210.14755) (preprint, to appear at ICASSP 2023)
+- ["Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0"](https://doi.org/10.1109/ICASSP49357.2023.10094972), presented at ICASSP 2023; arXiv preprint: [link](https://arxiv.org/abs/2210.14755)
 
 (This repository is a work in progress)
 
@@ -121,17 +121,17 @@ If you use this code, please cite one of the following papers:
   }
   ```
 
-- multitask SCD, OSD and VAD (To appear at ICASSP 2023) [(preprint)](https://arxiv.org/abs/2210.14755):
+- multitask SCD, OSD and VAD [(ICASSP 2023)](https://doi.org/10.1109/ICASSP49357.2023.10094972):
 
-  Kunešová, M., Zajíc, Z. (2022). Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0. To appear at the 2023 IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP 2023). In press. arXiv:2210.14755.
+  Kunešová, M., Zajíc, Z. (2023). Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0. In: 2023 IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP 2023). pp. 1-5. doi: 10.1109/ICASSP49357.2023.10094972.
 
   ```
   @inproceedings{KunesovaZajic2022,
-    doi = {10.48550/ARXIV.2210.14755},
+    doi={10.1109/ICASSP49357.2023.10094972},
     author = {Kune{\v{s}}ov{\'a}, Marie and Zaj{\'{i}c}, Zbyn{\v{e}}k},
     title = {Multitask Detection of Speaker Changes, Overlapping Speech and Voice Activity Using wav2vec 2.0},
-    booktitle = {To appear at the 2023 IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP 2023)},
-    note = {In press. arXiv:2210.14755},
-    year = {2022}
+    booktitle={2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+    pages={1-5},
+    year = {2023}
   }
   ```
